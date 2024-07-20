@@ -4,11 +4,11 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import Image from "next/image";
 
+import WatchListIcon from "@/components/ui/WatchListIcon";
 import { Skeleton } from "@/components/ui/skeleton";
 
 import { AnilistResult } from "@/types/anime";
 import { TvMinimal } from "lucide-react";
-import { CirclePlusIcon } from "lucide-react";
 
 interface SearchResultsProps {
     type: "default" | "search";
@@ -28,7 +28,7 @@ const listVariants = cva("mt-6 grid grid-cols-2 gap-2 lg:gap-4 select-none", {
 });
 
 export function AnimeList({ type, list }: SearchResultsProps) {
-    const addToWatchList = (
+    const addToWatchListHandler = (
         e: React.MouseEvent<SVGSVGElement, MouseEvent>,
         id: string
     ) => {
@@ -37,7 +37,6 @@ export function AnimeList({ type, list }: SearchResultsProps) {
 
         // TODO: Save watchlist into DB
     };
-
     return (
         <div className={cn(listVariants({ type }))}>
             {list.map((anime, index) => (
@@ -76,14 +75,10 @@ export function AnimeList({ type, list }: SearchResultsProps) {
                                         </div>
                                     )}
                                 </div>
-                                <div>
-                                    <CirclePlusIcon
-                                        onClick={(e) =>
-                                            addToWatchList(e, anime.id)
-                                        }
-                                        className="drop-shadow hover:text-purple-800"
-                                    ></CirclePlusIcon>
-                                </div>
+                                <WatchListIcon
+                                    id={anime.id}
+                                    addToWatchList={addToWatchListHandler}
+                                ></WatchListIcon>
                             </div>
                             <div className="absolute inset-0 bg-gradient-to-t from-10% from-black via-[transparent] to-transparent opacity-70 rounded-lg pointer-events-none"></div>
                         </div>
