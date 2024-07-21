@@ -15,12 +15,27 @@ datasource db {
 }
 
 model User {
-  id             String   @id @default(uuid())
-  externalUserId String   @unique
-  email          String   @unique
-  imageUrl       String   @db.Text
-  username       String?  @unique
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  id             String     @id @default(uuid())
+  externalUserId String     @unique
+  email          String     @unique
+  imageUrl       String     @db.Text
+  username       String     @unique
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+  profileImage   String?
   bio            String?
+  watchList      WatchList?
+}
+
+model WatchList {
+  id     String  @id @default(uuid())
+  user   User    @relation(fields: [userId], references: [id])
+  userId String  @unique
+  titles Title[]
+}
+
+model Title {
+  id         String      @id
+  title      String
+  watchLists WatchList[]
 }
